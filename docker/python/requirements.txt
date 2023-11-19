@@ -1,0 +1,13 @@
+# Fastapiをするためのライブラリ
+fastapi
+
+# PythonのwebサーバーとWebアプリケーションが通信するためのインターフェース
+# 話すと長いから詳しく知りたい人は[uvicornとは？]でdigってください。
+uvicorn
+
+# Pythonでよく使われるObject Relational Mapper
+sqlalchemy
+
+# PostgreSQLを使うためのライブラリ
+psycopg2
+psycopg2-binary

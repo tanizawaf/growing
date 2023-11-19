@@ -1,0 +1,37 @@
+# docker-composeのバージョン指定
+version: "3.0"
+
+services:
+  # backendコンテナ作成
+  backend:
+    container_name: backend
+    # ディレクトリをマウントする設定
+    volumes:
+      - ./backend:/app
+    # コンテナをビルドするための設定
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    # nginxのリクエストを8080ポートで受け付けて、内部の8080ポートに接続する
+    ports:
+      - 8080:8080
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: docker/nodejs/Dockerfile
+    volumes:
+      - ./frontend:/src
+    #コンテナを立ち上げたときに自動的にReactファイルをビルドする設定
+    command: sh -c "cd react-project && yarn start"
+    ports:
+      - "3000:3000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
