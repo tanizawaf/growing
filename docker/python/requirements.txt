@@ -11,3 +11,15 @@ sqlalchemy
 # PostgreSQLを使うためのライブラリ
 psycopg2
 psycopg2-binary
+
+## 応用編
+
+# PEP8に基づいたフォーマットをしてくれるライブラリ
+# 使い方 black xxx.py
+black
+
+# LLMを良しなにしてくれる素敵なライブラリ
+langchain
+
+# openaiのAPIを利用するためのライブラリ
+openai

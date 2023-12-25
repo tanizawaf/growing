@@ -35,3 +35,18 @@ services:
       - "80:80"
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data:cached
+
+volumes:
+  db-data:

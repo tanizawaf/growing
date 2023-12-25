@@ -1,14 +1,34 @@
-from fastapi import FastAPI,Request
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+
+from llm import ask_question
 
 app = FastAPI()
 
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
-@app.get("/api")
-async def root(request:Request):
-    print(request.headers)
-    return {"message": "Hello World"}
 
-@app.get("/no-proxy-header")
-async def noProxyHeader(request:Request):
-    print(request.headers)
-    return {"message": "no proxy header"}
+class Message(BaseModel):
+    text: str = Field(title="Request message to LLM.", max_length=1000)
+
+
+class LLMResponse(BaseModel):
+    text: str
+
+
+@app.get("/healthcheck")
+def healthcheck():
+    return {}
+
+
+@app.post("/llm")
+async def run_llm(message: Message) -> LLMResponse:
+    answer = ask_question(message.text)
+    return LLMResponse(text=answer)

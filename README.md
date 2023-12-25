@@ -45,11 +45,25 @@
 13. ここまでで、一度コンテナをビルドしていきましょう。
     `docker-compose build`
 14. Reactプロジェクトの作成の作成をします。
-    `docker-compose run --rm frontend sh -c "npm install -g create-react-app && create-react-appreact-project --template typescript"`
+    `docker-compose run --rm frontend sh -c "yarn create vite llm-react --template react-ts"`
 15. コンテナを起動します。
     `docker-compose up -d`
 
 ここまで実行すると以下のような画面が表示されます。
 ![](./images/image1.png)
 
+## 応用編
 
+自前のChatGPTを実装します。（唐突）
+ここからは最低限のことしか記しません。ついてこい。
+
+1. `requirements.txt`に実装に必要なライブラリを記載します。
+2. `llm.py`を作成してコーディングします。
+3. `main.py`を書き換えます
+4. `frontend`のコンテナに入り以下を実行します
+    ```
+    yarn add -D prettier eslint-plugin-prettier eslint-config-import
+    yarn add -D prettier eslint-plugin-prettier eslint-config-prettier
+    yarn add -D prettier eslint-plugin-prettier eslint-config-react
+    yarn add -D prettier eslint-plugin-prettier eslint-config-react-hooks
+    ```
