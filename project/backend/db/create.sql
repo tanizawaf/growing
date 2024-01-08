@@ -1,1 +1,2 @@
-CREATE DATABASE test_db;
+-- CREATE DATABASE test_db;
+CREATE DATABASE web_prod;

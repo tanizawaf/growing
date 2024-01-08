@@ -58,7 +58,7 @@ export const DeletedTodo: FC<DeletedTodoProps> = memo(({ id, item, getTodos }) =
           </ModalContent>
         </ModalOverlay>
       </Modal>
-      <Button onClick={onClickModalOpen}>Delete</Button>
+      <Button mr="2" onClick={onClickModalOpen}>Delete</Button>
     </>
   );
 });
