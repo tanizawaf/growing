@@ -154,12 +154,6 @@ public | textsummary | table | postgres
 ```
 
 ---
-
-# Todoアプリを立ち上げよう(5)
-
-.envの話が入る
-
----
 # Todoアプリを立ち上げよう()
 
 これで準備が整いました。
