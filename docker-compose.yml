@@ -9,7 +9,7 @@ services:
     volumes:
       - ./project/backend:/usr/src/
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@web-db:5432/test_db
+      - DATABASE_URL=postgres://postgres:postgres@web-db:5432/dev_db
     ports:
       - 8004:8000
     depends_on:

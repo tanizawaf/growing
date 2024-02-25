@@ -8,6 +8,7 @@ paginate: true
 img[alt~="center"] {
   display: block;
   margin: 0 auto;
+  width: 65%;
 }
 strong,b {
   color: red;
@@ -26,10 +27,10 @@ strong,b {
 # 自己紹介
 
 * 名前：森光一
-* I＆I室での役割：開発に関わるもの全て
-* 趣味：
-  * ライブ、ギター
-  * 酒、日本酒、ビール
+* I＆I室での役割：開発に関連する全て
+* 趣味
+  音楽：ギター（アコギもエレキも）、たまにライブ見に行く
+  酒：日本酒、ビール
 
 ---
 
@@ -46,6 +47,11 @@ strong,b {
 * Dockerのインストール方法
 * コンテナ技術、FastAPI、Reactの詳しい説明
 * コードの解説
+
+---
+
+<!-- _class : lead invert-->
+# 座学（簡単に）
 
 ---
 
@@ -89,23 +95,31 @@ LINEヤフー、メルカリ、楽天モバイル、サイバーエージェン�
 
 ---
 
-# Todoアプリを立ち上げよう(1)
+# Todoアプリを立ち上げよう 1/6
 
 * 以下のURLからソースをクローンしてくる
-`https://github.com/m8i-51/growing`
+`git clone https://github.com/m8i-51/growing`
 
 * プロジェクトのディレクトリに移動する
 `cd growing`
 
+---
+
+# # Todoアプリを立ち上げよう 2/6
 * 以下のファイルに実行権限を与える
+
+  Linuxの人
 `chmod +x project/backend/entrypoint.sh`
+
+  Windowsの人
+`icacls entrypoint.sh /g ユーザー名:RX`
 
 * コンテナ達をビルド
 `docker-compose up -d`
 
 ---
 
-# Todoアプリを立ち上げよう(2)
+# Todoアプリを立ち上げよう 3/6
 
 * コンテナが正常に起動しているか確認する
 `docker-compose logs web`
@@ -126,7 +140,7 @@ web-1  | INFO:uvicorn.error:Application startup complete.
 
 ---
 
-# Todoアプリを立ち上げよう(3)
+# Todoアプリを立ち上げよう 4/6
 
 * 正常に起動されていたらテーブルを作成する
 `docker-compose exec web python app/db.py`
@@ -135,16 +149,16 @@ web-1  | INFO:uvicorn.error:Application startup complete.
 
 ---
 
-# Todoアプリを立ち上げよう(4)
+# Todoアプリを立ち上げよう 5/6
 
 * テーブルが作成されたか確認する
 
 ```text
 docker-compose exec web-db psql -U postgres
 
-postgres-# postgres=\c test_db
+postgres-# postgres=\c dev_db
 
-test_db-# test_db=\dt
+dev_db-# dev_db=\dt
 
            List of relations
 Schema |    Name     | Type  |  Owner
@@ -154,7 +168,7 @@ public | textsummary | table | postgres
 ```
 
 ---
-# Todoアプリを立ち上げよう()
+# Todoアプリを立ち上げよう 6/6
 
 これで準備が整いました。
 
@@ -179,7 +193,7 @@ public | textsummary | table | postgres
 
 ---
 
-# 課題
+# 課題(宿題)
 
 * タスクの複製機能を実装
 ![h:250px center](images/task1.png)
@@ -200,7 +214,7 @@ public | textsummary | table | postgres
 
 ### TodoアプリをAWSの各サービスを活用して公開
 
-長くなるのでオンデマンド形式にします。(**鋭意製作中**)
+長くなるのでオンデマンド形式にしようと思ってます。(**鋭意製作中**)
 
 ---
 
