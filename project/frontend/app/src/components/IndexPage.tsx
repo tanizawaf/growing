@@ -1,16 +1,19 @@
-import React, { FC } from "react";
-import { Box, Button, Divider, Flex, Heading, Input, Stack } from "@chakra-ui/react";
-import { Todo } from "./Todo";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Input,
+  Stack,
+} from "@chakra-ui/react";
+import { FC } from "react";
 import { useIndexPageLogic } from "./IndexPageLogic";
+import { Todo } from "./Todo";
 
 export const IndexPage: FC = () => {
-  const {
-    todoName,
-    todos,
-    onChangeTask,
-    onClickAddTodo,
-    getTodos,
-  } = useIndexPageLogic();
+  const { todoName, todos, onChangeTask, onClickAddTodo, getTodos } =
+    useIndexPageLogic();
 
   return (
     <Flex align="center" color="gray.500" justify="center">
@@ -21,7 +24,11 @@ export const IndexPage: FC = () => {
           </Heading>
           <Box w={400}>
             <Stack>
-              <Input placeholder="Input taskname.." value={todoName} onChange={onChangeTask} />
+              <Input
+                placeholder="Input taskname.."
+                value={todoName}
+                onChange={onChangeTask}
+              />
               <Button colorScheme="teal" onClick={onClickAddTodo}>
                 Add
               </Button>
@@ -29,7 +36,12 @@ export const IndexPage: FC = () => {
             </Stack>
           </Box>
           {todos.map((todo) => (
-            <Todo key={todo.id} id={todo.id} item={todo.summary} getTodos={getTodos} />
+            <Todo
+              key={todo.id}
+              id={todo.id}
+              item={todo.summary}
+              getTodos={getTodos}
+            />
           ))}
         </Stack>
       </Box>
