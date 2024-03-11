@@ -1,8 +1,8 @@
-import React, { memo, FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { UpdateTodo } from "./UpdateTodo";
+import { FC, memo } from "react";
 import { DeletedTodo } from "./DeletedTodo";
-
+import { DuplicateTodo } from "./DuplicateTodo";
+import { UpdateTodo } from "./UpdateTodo";
 type TodoProps = {
   id: number;
   item: string;
@@ -14,5 +14,6 @@ export const Todo: FC<TodoProps> = memo(({ id, item, getTodos }) => (
     <Text>{item}</Text>
     <UpdateTodo id={id} item={item} getTodos={getTodos} />
     <DeletedTodo id={id} item={item} getTodos={getTodos} />
+    <DuplicateTodo id={id} item={item} getTodos={getTodos} />
   </Box>
 ));
