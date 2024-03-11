@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, ChangeEvent } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { TodoType } from "../theme/types/api/TodoType";
 
 export const useIndexPageLogic = () => {
@@ -23,7 +23,6 @@ export const useIndexPageLogic = () => {
     if (todoName === "") return;
 
     const newTodo = {
-      id: todos.length + 1,
       summary: todoName,
     };
 
