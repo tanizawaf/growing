@@ -2,45 +2,51 @@ version: 0.2
 
 env:
   variables:
-    AWS_REGION: "ap-northeast-1"
-    REACT_APP_API_SERVICE_URL: "http://m8i-51.com"
+    REACT_APP_API_SERVICE_URL: "http://tanizawaf-elb-2023885129.ap-northeast-1.elb.amazonaws.com"
+    MY_USER_NAME: "tanizawaf"
 
 phases:
   pre_build:
     commands:
       - echo logging in to ecr...
       - >
-        aws ecr get-login-password --region $AWS_REGION \
-          | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend:prod || true
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:builder || true
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:prod || true
+        aws ecr get-login-password --region ap-northeast-1 \
+          | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com
+      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-backend:prod || true
+      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:builder || true
+      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:prod || true
   build:
     commands:
       - echo building images app-backend, app-frontend
       - >
         docker build \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend:prod \
+          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-backend:prod \
           -f project/backend/Dockerfile.prod \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend:prod \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-backend:prod \
           ./project/backend
       - >
         docker build \
           --target builder \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:builder \
+          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:builder \
           -f project/frontend/Dockerfile.prod \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:builder \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:builder \
           --build-arg NODE_ENV=production \
           --build-arg REACT_APP_API_SERVICE_URL=$REACT_APP_API_SERVICE_URL \
           ./project/frontend
       - >
         docker build \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:prod \
+          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:prod \
           -f project/frontend/Dockerfile.prod \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:prod \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:prod \
           ./project/frontend
   post_build:
     commands:
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend:prod
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:builder
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend:prod
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-backend:prod
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:builder
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/$MY_USER_NAME-frontend:prod
+      - IMAGE_DEFINITION_FRONTEND="{\"name\":\"${MY_USER_NAME}-frontend\",\"imageUri\":\"${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-1.amazonaws.com/${MY_USER_NAME}-frontend:prod\"}"
+      - IMAGE_DEFINITION_BACKEND="{\"name\":\"${MY_USER_NAME}-backend\",\"imageUri\":\"${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-1.amazonaws.com/${MY_USER_NAME}-backend:prod\"}"
+      - echo "[${IMAGE_DEFINITION_FRONTEND},${IMAGE_DEFINITION_BACKEND}]" > dev-imagedefinitions.json
+artifacts:
+  files:
+    - dev-imagedefinitions.json
